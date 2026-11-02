@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設計概論題庫複習 App</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 React 與 ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- 引入 Babel 以解析 JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f3f4f6; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 完整 81 題題庫
+        const allQuestionsData = [
+            { id: 1, text: "在 1990 年代前，學術界中將設計領域歸納為三大範圍，下列何者不包含在其中？", options: ["(A)產品設計", "(B)視覺設計", "(C)數位媒體設計", "(D)空間設計"], answer: 2 },
+            { id: 2, text: "關於設計行為的描述，下列何者不正確？", options: ["(A)設計行為是一種知識的轉換", "(B)設計行為涉及理性的思考", "(C)設計行為是創新的理念及感性的整合", "(D)設計行為最終目標是追求藝術上的絕對美感"], answer: 3 },
+            { id: 3, text: "下列關於設計運動發展的敘述，何者錯誤？", options: ["(A)第一波設計運動興起了形隨機能的現代主義設計理念", "(B)第二波設計運動以新社會秩序與文化為訴求，強調反功能", "(C)第三波設計運動主要特色是回歸傳統，強調手工藝價值", "(D)高設計是一種實用的設計方法，支持人們以自然、直觀的方式體驗事物"], answer: 2 },
+            { id: 4, text: "下列敘述何者正確？", options: ["(A)設計的本質僅在於追求產品外觀的美學", "(B)設計的目的在於製造新產品以刺激消費", "(C)設計的本質在於其功能是否能被徹底發揮，以解決人類的問題", "(D)設計是一種純粹的藝術表達，與知識轉換無關"], answer: 2 },
+            { id: 5, text: "下列何者不是設計思考的五大步驟之一？", options: ["(A)同理思考(Empathy)", "(B)需求定義(Define)", "(C)行銷推廣(Marketing)", "(D)製作原型(Prototype)"], answer: 2 },
+            { id: 6, text: "在電子時代環境主導下的設計思考，其先決條件為何？", options: ["(A)以最高效率的生產技術為前提", "(B)以最新的數位科技應用為前提", "(C)以人類的文化基礎為前提，考量人性化", "(D)以最大化的商業利潤為前提"], answer: 2 },
+            { id: 7, text: "二十一世紀在新科技技術進展下，新設計領域的分類不包含下列何者？", options: ["(A)工商業產品設計", "(B)生活型態設計", "(C)傳統藝術設計", "(D)商機導向設計"], answer: 2 },
+            { id: 8, text: "下列何者不屬於文化創意產業設計的範疇？", options: ["(A)傳統表演藝術歌仔戲", "(B)提升生活品質的公共藝術", "(C)利用 AI 技術開發的智慧家電產品", "(D)博物館與美術館的設立"], answer: 2 },
+            { id: 9, text: "資訊科技對設計行為帶來了哪些根本性的變化？", options: ["(A)只影響了設計師的創意發展方式，對設計內涵無影響", "(B)使得設計師的創作更受限於傳統手繪技巧", "(C)改變了工業設計的形式和內涵，豐富了人們的視覺體驗", "(D)主要限制了跨國訊息的即時傳遞"], answer: 2 },
+            { id: 10, text: "關於一位優秀設計師所應具備的特質，下列何者為非？", options: ["(A)美感的直覺", "(B)冷靜的思考", "(C)深厚的文化背景", "(D)過分強調個人風格"], answer: 3 },
+            { id: 11, text: "下列何者不屬於設計師應避免的「四不條件」？", options: ["(A)不要自命不凡", "(B)不要過度專注於細節", "(C)不要過分強調自己的個性", "(D)不要對自己的團隊或是公司不滿意"], answer: 1 },
+            { id: 12, text: "關於設計溝通的要點，下列敘述何者錯誤？", options: ["(A)委託方應提供設計主要訴求、用途、規格及受眾等詳細資訊", "(B)報價單上應詳載完稿交付日期、付款期限及修改次數上限等細節", "(C)為展現專業，溝通時應盡量使用專業術語", "(D)設計完成後應記錄成效及市場反饋，並與設計方討論"], answer: 2 },
+            { id: 13, text: "一般產品設計流程中，下列哪一個階段包含設計目標與方向的決定，以及方案的可行性評估？", options: ["(A)構想發展", "(B)計畫概要", "(C)細部設計", "(D)設計決策"], answer: 1 },
+            { id: 14, text: "依據 Bruce Archer 的系統設計方法程序，下列何者不屬於其內容？", options: ["(A)觀察經驗法", "(B)直覺法", "(C)量化數據分析", "(D)綜合"], answer: 2 },
+            { id: 15, text: "下列何者是設計程式的第四個階段性過程，主要進行檢討與評估？", options: ["(A)設計入門 (Design approach)", "(B)設計分析 (Design analysis)", "(C)設計發展 (Design development)", "(D)設計評估 (Design appraisal)"], answer: 3 },
+            { id: 16, text: "十八世紀中期，哪位英國人改良了蒸汽機，從而引發了工業革命？", options: ["(A)查爾斯·詹克斯", "(B)詹姆斯·瓦特", "(C)菲利普·史塔克", "(D)墨里歐·貝利尼"], answer: 1 },
+            { id: 17, text: "哪一場十九世紀中期的展覽會，成功帶起了工業技術和美學結合的觀念，引發了設計概念的開始？", options: ["(A)巴黎世界博覽會", "(B)紐約工業設計大展", "(C)水晶宮展覽會", "(D)德國工作聯盟展"], answer: 2 },
+            { id: 18, text: "到了二十世紀中期，一些建築師和工業設計師提出了以當代文化、社會觀念及人類心理與認知學的概念做為設計研究的理論依據，請問此種研究方向的主要目的是什麼？", options: ["(A)強調設計必須絕對地服從於工業技術", "(B)使設計史的研究範圍帶入了人類心理與哲學概念", "(C)推翻所有過去機械式的排列組合形式", "(D)將手工藝品引導至大量生產的產品化設計"], answer: 1 },
+            { id: 19, text: "西元七○年代由查爾斯·詹克斯首先提倡的後現代主義，其設計特徵主要不包含下列哪一項理念？", options: ["(A)裝飾", "(B)象徵", "(C)符號", "(D)超現實的手法"], answer: 3 },
+            { id: 20, text: "德國設計在包浩斯時期，除了改進產品的標準化之外，更加強了哪一方面的需求？", options: ["(A)流線形造形", "(B)傳統皇室風格", "(C)功能性", "(D)東方式抽象"], answer: 2 },
+            { id: 21, text: "義大利的設計文化和德國的理性設計理念完全相反，義大利的設計風格主要以何種形式展現？", options: ["(A)使用幾何形狀與線條來發展商品形式", "(B)以傳統的皇室風格作為設計守則", "(C)充滿流線造形與迷人的傢俱設計", "(D)追求簡僕、自然，以最基本的元素注入創意"], answer: 2 },
+            { id: 22, text: "專家對於英國設計風格的評價，常提到下列哪一種特徵？", options: ["(A)充滿流線型風格與迷人的雕塑感，表現積極的現代感", "(B)師法自然、線條理性簡潔，以人為本，極具功能性", "(C)有風範、坦率、普通、結實、沉默寡言，且缺少技巧與魔力", "(D)源由工藝與文化之形態，追求簡僕、內斂的抽象美學"], answer: 2 },
+            { id: 23, text: "北歐設計的理念核心為「誠實」、「關懷」、「多功能」，以及哪一項？", options: ["(A)極簡", "(B)奢華", "(C)舒適", "(D)高度藝術性"], answer: 2 },
+            { id: 24, text: "全世界最早且較具系統性的設計教育，是由哪位建築師於西元 1919 年在德國威瑪創辦？", options: ["(A)漢斯·梅爾", "(B)華德·葛羅佩斯", "(C)保羅·克利", "(D)約翰·伊登"], answer: 1 },
+            { id: 25, text: "包浩斯設計教育的教學理念，希望以哪兩種方式達成理論與實務並用的目標？", options: ["(A)純粹的藝術創作與哲學思辨", "(B)手工藝技巧的訓練與產品量產化", "(C)基礎課程的理論教學與工廠實習方式", "(D)理性主義的延續與反對任何形式的裝飾"], answer: 2 },
+            { id: 26, text: "包浩斯設計教育的過程分為三階段，其中第二階段「形態教育」的期限為多久？", options: ["(A)六個月", "(B)一年", "(C)三年", "(D)期限不定"], answer: 2 },
+            { id: 27, text: "包浩斯奠定了現代設計觀念，它將十九世紀哪一運動的美學理念帶進功能主義，使兩者結合，成為現代主義的先驅？", options: ["(A)裝飾藝術運動", "(B)美術工藝運動", "(C)新藝術運動", "(D)理性主義運動"], answer: 1 },
+            { id: 28, text: "二十世紀的工業設計發展時代經歷了三大主要設計時期，請問下列何者不屬於這三大主要時期？", options: ["(A)功能主義 (1900年~1930年)", "(B)現代主義 (1930年~1970年)", "(C)機器美學 (1920年代初期)", "(D)後現代主義 (1970年~1985年)"], answer: 2 },
+            { id: 29, text: "隨著工業設計發展，設計的目標已不再只是追求機能的發展與優美的造形，更在於強調哪方面的維繫？", options: ["(A)生產技術的革新", "(B)文化的維繫", "(C)市場經濟的穩定", "(D)工業化標準的統一"], answer: 1 },
+            { id: 30, text: "在二十世紀初，消費者開始厭倦長期使用巨大且笨重的工業產品，開始有人提倡美化工業技術產品，進而孕育而生的是哪一項運動？", options: ["(A)美術工藝運動", "(B)新藝術運動", "(C)機器美學運動", "(D)企業識別形象系統"], answer: 2 },
+            { id: 31, text: "五〇年代後，哪一種平面設計風格開始以標準化、格式化的形式來設計版面，其設計以方格網的方式，將字體、插圖、照片等元素以數學比例為基礎做編排？", options: ["(A)美術工藝風格", "(B)新藝術風格", "(C)構成主義風格", "(D)國際主義風格"], answer: 3 },
+            { id: 32, text: "紅點設計總裁 Peter Zec 博士提到，現今所謂的好設計必須具備四大元素，下列何者不包含在內？", options: ["(A)功能性", "(B)吸引人", "(C)責任感", "(D)標準化"], answer: 3 },
+            { id: 33, text: "紅點設計總裁 Peter Zec 博士提到的「責任感」(responsibility) 元素，除了環保與永續設計之外，還特別強調哪一種責任？", options: ["(A)對於設計圖面精準度的責任", "(B)對於社會道德關懷的責任", "(C)對於產品外觀美感的責任", "(D)對於經濟市場利潤的責任"], answer: 1 },
+            { id: 34, text: "互動式的設計除了使產品能依照指令行動外，另一個心理層面是滿足消費者對於人造物的三個層次需求，下列何者為非？", options: ["(A)有用的 (usefulness)", "(B)容易用的 (usability)", "(C)具有情感的 (emotionality)", "(D)追求快速更新 (rapid renewal)"], answer: 3 },
+            { id: 35, text: "經過多年發展，當代數位藝術 (Digital Art) 的特色，是運用數位科技技術結合哪些形式進行藝術創作？", options: ["(A)單純的油畫與雕塑影像", "(B)影像、音效、體驗、模擬和互動", "(C)純粹的抽象概念表達", "(D)傳統文學與戲劇"], answer: 1 },
+            { id: 36, text: "1997 年「創意產業 (Creative Industry)」的概念，最早由哪一個國家在籌設創意產業時提出？", options: ["(A)美國", "(B)法國", "(C)英國", "(D)韓國"], answer: 2 },
+            { id: 37, text: "英國學者泰勒 (E.B.Taylor) 對「文化」的定義中，不包含下列哪一項？", options: ["(A)知識與信仰", "(B)藝術與道德", "(C)法律與風俗", "(D)企業經營模式與利潤"], answer: 3 },
+            { id: 38, text: "前行政院文化建設委員會 (文建會) 曾提到文化創意產業的三個面向，下列何者不包含在內？", options: ["(A)產業", "(B)文化", "(C)創意", "(D)經濟"], answer: 3 },
+            { id: 39, text: "根據文化創意產業的定義，其形成的關係是哪三個層面的結合？", options: ["(A)美學為中心、藝術為方法、經濟為發展", "(B)文化為中心、創意為方法、產業為發展", "(C)產品為原料、行銷為策略、消費者為目標", "(D)傳統為基礎、數位為工具、國際化為目標"], answer: 1 },
+            { id: 40, text: "精緻文化 (Refined Culture) 與流行文化相較，其最主要的特性是下列何者？", options: ["(A)透過媒體廣泛傳播以創造商業價值", "(B)追求最高層次的美感、知性與道德律", "(C)在特定族群間以「文化基因」效應傳播", "(D)必須具有實用功能與可大量生產性"], answer: 1 },
+            { id: 41, text: "西元 1843 年 Volney Palmer 創辦世界上第一家廣告代理公司，請問這家公司座落於何處？", options: ["(A)美國費城", "(B)英國倫敦", "(C)德國柏林", "(D)法國巴黎"], answer: 0 },
+            { id: 42, text: "廣告代理公司最早於 1843 年在美國費城創立，但到了二十世紀時，廣告代理開始為下列何項項目負責？", options: ["(A)廣告設計的美感呈現", "(B)廣告傳播的媒介選擇", "(C)廣告的內容與資訊", "(D)廣告的經濟效益評估"], answer: 2 },
+            { id: 43, text: "包裝設計的一般功能有三項，下列何者為非？", options: ["(A)保護商品在運送期間避免被損害", "(B)傳達商品的項目或是內容資訊", "(C)作為企業形象塑造的唯一策略", "(D)吸引消費者來購買"], answer: 2 },
+            { id: 44, text: "企業識別系統 (CIS) 中，由理念識別系統 (MI)、行為識別系統 (BI) 與下列哪一項系統構成其主要結構？", options: ["(A)企業資源規劃系統 (ERP)", "(B)視覺形象識別系統 (VI)", "(C)顧客關係管理系統 (CRM)", "(D)品牌行銷策略 (BMS)"], answer: 1 },
+            { id: 45, text: "企業識別系統 (CIS) 是企業對外傳達視覺形象的總和，其主要的結構不包含下列哪一項系統？", options: ["(A)理念識別系統 (MI)", "(B)行為識別系統 (BI)", "(C)市場行銷策略 (MS)", "(D)視覺形象識別系統 (VI)"], answer: 2 },
+            { id: 46, text: "根據工業設計的觀點，設計與感性、主觀的「藝術」不同，必須同時兼備企劃 (Planning)、構想 (Idea) 與下列哪一項機能？", options: ["(A)市場行銷", "(B)圖面", "(C)人因工程", "(D)經濟成本"], answer: 1 },
+            { id: 47, text: "工業設計是企劃、構想、圖面三體合一的工作，也是結合哪三者的工作？", options: ["(A)美學、社會與文化", "(B)人因、結構與生產", "(C)藝術、經濟與技術", "(D)市場、消費與行銷"], answer: 2 },
+            { id: 48, text: "CAD/CAM (電腦輔助設計與製造) 在工業生產中扮演重要角色，CAD/CAM 主要功能在於哪一項？", options: ["(A)單純的電腦繪圖與文件管理", "(B)從產品設計到加工生產全部借重電腦精密運算", "(C)僅專注於材料規格化與產品標準化", "(D)協助企業進行市場行銷與消費者需求分析"], answer: 1 },
+            { id: 49, text: "隨著社會發展與科技進步，現代產品的功能不再只有單純的「使用功能」，另外還必須考慮哪兩項功能？", options: ["(A)節約功能與生態功能", "(B)審美功能與文化功能", "(C)商業功能與量產功能", "(D)市場功能與技術功能"], answer: 1 },
+            { id: 50, text: "從二十世紀初的德國工作聯盟、包浩斯延續到七○年代的烏爾姆學院，都秉持著下列哪一理念原則進行設計？", options: ["(A)設計是為經營商業", "(B)造形跟隨功能", "(C)幽默諷刺的手法", "(D)美學高於一切"], answer: 1 },
+            { id: 51, text: "人工智慧 (AI) 可分為強人工智慧與弱人工智慧，其中強人工智慧的特性為下列何者？", options: ["(A)著重於收集、分析與判斷的智能應用表現", "(B)專注於影像辨識與語言分析等單一功能", "(C)具有不斷學習與模擬人類智能的特性", "(D)僅限於電腦程式的執行與計算"], answer: 2 },
+            { id: 52, text: "人工智慧 (AI) 可分為強人工智慧與弱人工智慧，強人工智慧 (Strong A.I.) 的目標是什麼？", options: ["(A)著重於收集、分析與判斷的應用表現", "(B)創造出具有人類智慧或電腦自我智慧", "(C)專注於單一功能如影像辨識或語言分析", "(D)提升電腦的運算速度與儲存容量"], answer: 1 },
+            { id: 53, text: "大數據 (Big Data) 是數位科技高度發展下的產物，其本身具有「3V」特性，請問下列何者不是大數據的特性？", options: ["(A)量 (Volume)", "(B)多變 (Variety)", "(C)價值 (Value)", "(D)速 (Velocity)"], answer: 2 },
+            { id: 54, text: "工藝品製作的工法很多，下列何者不屬於工藝設計中常用的製作方法？", options: ["(A)鑄造", "(B)脫臘", "(C)吹氣", "(D)光固化"], answer: 3 },
+            { id: 55, text: "元宇宙 (Metaverse) 所創造的虛擬環境，其與網路遊戲或社群平台最主要的區別在於何處？", options: ["(A)使用虛擬貨幣作為交易媒介", "(B)數位身分不受現實世界中的真實身分限制", "(C)可以讓參與者虛擬化身各種造型", "(D)提供線上遊戲與購物等功能"], answer: 1 },
+            { id: 56, text: "在六○至七○年代，世界各國政府大力推廣「公共藝術」的核心意義是什麼？", options: ["(A)鼓勵大眾投資藝術品市場", "(B)讓廣大的民眾都擁有享受藝術美的權利", "(C)強調建築的功能性高於其美學特徵", "(D)將傳統藝術品數位化進行典藏"], answer: 1 },
+            { id: 57, text: "在臺灣和香港，世界各國政府大力推廣的「公共藝術」的稱謂又被稱為下列何者？", options: ["(A)景觀藝術", "(B)環境規劃", "(C)文化資產", "(D)城市雕塑"], answer: 0 },
+            { id: 58, text: "展示空間的基本結構由場所結構、路徑結構、領域結構與展品結構所組成，請問其中哪一項屬性是展示空間的基本屬性？", options: ["(A)路徑結構", "(B)領域結構", "(C)展品結構", "(D)場所結構"], answer: 3 },
+            { id: 59, text: "博物館 (含美術館) 設立的特定目標，除了資產與文物的收藏、專業的研究、知識的探索之外，還包含下列哪一項功能？", options: ["(A)創造經濟價值與商品化", "(B)強調形式美學與數理結構", "(C)文物的表達和整合資訊", "(D)發揮營利導向的商業功能"], answer: 2 },
+            { id: 60, text: "博物館與民眾的關係，可以歸納為哪三種互動層次？", options: ["(A)純粹觀賞、商業營利、教育學習", "(B)歷史研究、文物修復、資訊管理", "(C)知識的教導、展示經驗的互動、親近的文化場所", "(D)藝術批評、哲學論證、美學呈現"], answer: 2 },
+            { id: 61, text: "工藝設計的創作品，其主要功能通常包含裝飾、使用與下列何者？", options: ["(A)大量製造", "(B)科學研究", "(C)文化教學", "(D)典藏"], answer: 3 },
+            { id: 62, text: "以材料為主的工藝類別相當廣泛，下列何者不屬於工藝設計中以材料為主的類別？", options: ["(A)竹製", "(B)塑膠", "(C)石材", "(D)數位晶片"], answer: 3 },
+            { id: 63, text: "工藝設計的定義為何？", options: ["(A)以機器進行基礎加工後再以手工精修的物件", "(B)以原始性的材料，透過工藝方法進行生產性創作的物件", "(C)以數位設計軟體建構的產品原型", "(D)必須具備高度功能性和量產性的生活用品"], answer: 1 },
+            { id: 64, text: "手工藝品價值較量產品高的主要原因是什麼？", options: ["(A)工藝品多應用於高科技材料", "(B)工藝品的色彩與造形變化較多", "(C)手工藝術品製作過程繁雜且失敗率高，難以作出兩件相同作品", "(D)工藝品具備高度的功能性與實用性"], answer: 2 },
+            { id: 65, text: "流行文化 (Popular Culture) 與大眾傳播媒介的關係為何？", options: ["(A)流行文化是純粹由大眾傳播媒介生產物的總和", "(B)流行文化與大眾傳播媒介無關，純粹由消費者自發性認同形成", "(C)流行文化是由傳播媒介與所有接觸這些產物的人之互動所產生的現象", "(D)流行文化主要是由學術研究和專業分析所驅動"], answer: 2 },
+            { id: 66, text: "流行設計的來源與形成，最終是基於何者的自發性認同與選擇？", options: ["(A)傳播媒介的影響力", "(B)設計師的獨特創作", "(C)消費者的自發性認同", "(D)學術界的研究分析"], answer: 2 },
+            { id: 67, text: "Richard Dawkins 套用進化論的理論，認為流行文化也會依據哪一項法則進行汰換，使最受歡迎的文化產物才能生存下來？", options: ["(A)最小阻力原則", "(B)格式塔法則", "(C)物競天擇，適者生存", "(D)奧坎剃刀原則"], answer: 2 },
+            { id: 68, text: "自古希臘時期的哲學家開始，對於「美學」的研究有何一致的共識？", options: ["(A)美學是研究一切事物最佳的方法", "(B)美學是透過感性而非理性來理解世界", "(C)美學應服從於功能主義的指導原則", "(D)美學只存在於精緻藝術領域，不適用於建築"], answer: 0 },
+            { id: 69, text: "在西方藝術理論中，主導整體藝術美學的主要依據是什麼？", options: ["(A)色彩與光線的感知", "(B)巴洛克風格的華麗裝飾", "(C)幾何學中的比例關係", "(D)後現代主義的解構概念"], answer: 2 },
+            { id: 70, text: "一件具有美感的產品設計，必須滿足多項要求，下列何者不是產品設計美學所強調的必要條件？", options: ["(A)方便使用與愉悅的介面", "(B)造形美觀與符合市場流行趨勢", "(C)必須具備強烈的情感和宗教象徵意義", "(D)節約材料並滿足功能需求"], answer: 2 },
+            { id: 71, text: "十九世紀以降，隨著工業主義的發達，古時的比例模矩觀念逐漸轉換為哪一種設計概念？", options: ["(A)黃金比例原則", "(B)功能主義及機器美學", "(C)巴洛克時期的複雜裝飾", "(D)後現代主義的反功能主義"], answer: 1 },
+            { id: 72, text: "視覺設計 (Visual Design) 的主要目標是什麼？", options: ["(A)僅限於精緻藝術作品的創作與展示", "(B)透過圖像的方式補足語言傳達的不足，達到清楚明確的溝通傳達目的", "(C)專注於提升產品的硬體技術和人體工學", "(D)主要在於呈現建築物的結構體與逃生安全"], answer: 1 },
+            { id: 73, text: "下列何者不屬於視覺設計的應用範圍？", options: ["(A)海報與產品包裝", "(B)數位媒體影像與網頁設計", "(C)書籍與宣傳單", "(D)建築物的結構體設計"], answer: 3 },
+            { id: 74, text: "環境設計包含的範圍相當廣泛，其領域是綜合下列哪三方面的規劃？", options: ["(A)市場分析、產品製造與消費者行為", "(B)自然資源、生態環境與景觀規劃", "(C)數位科技、人工智慧與資訊傳播", "(D)色彩理論、幾何比例與裝飾藝術"], answer: 1 },
+            { id: 75, text: "公共藝術設計的設立，最主要目的是什麼？", options: ["(A)僅作為美化都市景觀的雕塑品", "(B)為歷史文物提供一個典藏的場所", "(C)必須與人產生互動的關係", "(D)專注於建築結構體的安全性"], answer: 2 },
+            { id: 76, text: "最早發現色彩理論，利用三稜鏡透過日光的照射產生紅、橙、黃、綠、藍、靛、紫七種色光的是哪位科學家？", options: ["(A)柯比意 (Le Corbusier)", "(B)牛頓 (Newton)", "(C)莫內 (Monet)", "(D)達文西 (Leonardo da Vinci)"], answer: 1 },
+            { id: 77, text: "後現代主義的 Memphis Design 設計群，對於工業設計的內涵持何種觀點？", options: ["(A)產品的內涵取決於功能性，應採用單一的黑灰色調", "(B)產品的內涵，在於設計師個人風格的表現，以反功能主義使用多種色彩搭配", "(C)設計必須依循古希臘的幾何比例模矩", "(D)設計應以「少就是多」的簡潔理念為準則"], answer: 1 },
+            { id: 78, text: "根據 Manzihi 的理念，綠色設計八種形式中，強調以「無形的非物質化的產品代替有形的物質化的產品」是屬於哪一種形式？", options: ["(A)統一性的材料使用", "(B)可持續性使用的產品", "(C)可傳遞適當訊息替代媒介", "(D)非過度性的設計"], answer: 2 },
+            { id: 79, text: "綠色設計所標榜的最高設計理念，除了「少就是多 (Less is more)」之外，更應該將口號提升為下列何者？", options: ["(A)多就是好 (More is better)", "(B)少就是更好 (Less is better)", "(C)多樣性就是美 (Variety is beauty)", "(D)複雜就是專業 (Complexity is professionalism)"], answer: 1 },
+            { id: 80, text: "通用設計 (Universal Design) 最初原始的定義，是以大眾全體設計為對象，若以廣義的解釋，以下列哪兩個字形容最為貼切？", options: ["(A)美觀", "(B)包容", "(C)效率", "(D)創新"], answer: 1 },
+            { id: 81, text: "根據 Ron Mace 對共通設計的定義，他認為共通設計是一種考量哪些因素的設計物？", options: ["(A)只考量年輕與健康族群的需求", "(B)只考量性別與年齡", "(C)考量各種性別、年齡與能力的人", "(D)只考量環境經濟效益與藝術性"], answer: 2 }
+        ];
+
+        const QUESTIONS_PER_ROUND = 20;
+
+        function App() {
+            const [appState, setAppState] = React.useState('home'); // home, playing, result
+            const [currentQuestions, setCurrentQuestions] = React.useState([]);
+            const [currentIndex, setCurrentIndex] = React.useState(0);
+            const [score, setScore] = React.useState(0);
+            const [wrongQuestionsPool, setWrongQuestionsPool] = React.useState([]);
+            const [selectedAnswer, setSelectedAnswer] = React.useState(null);
+            const [isAnswered, setIsAnswered] = React.useState(false);
+            const [roundWrong, setRoundWrong] = React.useState([]); // 本回合答錯的題目
+
+            // 洗牌函數
+            const shuffleArray = (array) => {
+                const newArr = [...array];
+                for (let i = newArr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+                }
+                return newArr;
+            };
+
+            // 開始新的一回合
+            const startRound = () => {
+                let nextRoundQuestions = [];
+                
+                // 1. 優先加入錯題池中的題目
+                if (wrongQuestionsPool.length > 0) {
+                    nextRoundQuestions = wrongQuestionsPool.slice(0, QUESTIONS_PER_ROUND);
+                }
+
+                // 2. 從總題庫中抽出剩餘需要的題目
+                const needed = QUESTIONS_PER_ROUND - nextRoundQuestions.length;
+                if (needed > 0) {
+                    const availableQuestions = allQuestionsData.filter(
+                        q => !nextRoundQuestions.some(wq => wq.id === q.id)
+                    );
+                    const shuffledAvailable = shuffleArray(availableQuestions);
+                    const toAdd = shuffledAvailable.slice(0, Math.min(needed, availableQuestions.length));
+                    nextRoundQuestions = [...nextRoundQuestions, ...toAdd];
+                }
+
+                // 3. 將最終選出的題目洗牌
+                nextRoundQuestions = shuffleArray(nextRoundQuestions);
+
+                setCurrentQuestions(nextRoundQuestions);
+                setCurrentIndex(0);
+                setScore(0);
+                setRoundWrong([]);
+                setSelectedAnswer(null);
+                setIsAnswered(false);
+                setAppState('playing');
+            };
+
+            // 處理選擇答案
+            const handleSelect = (index) => {
+                if (isAnswered) return;
+                setSelectedAnswer(index);
+                setIsAnswered(true);
+
+                const currentQ = currentQuestions[currentIndex];
+                if (index === currentQ.answer) {
+                    setScore(s => s + 1);
+                    setWrongQuestionsPool(prev => prev.filter(q => q.id !== currentQ.id));
+                } else {
+                    setRoundWrong(prev => {
+                        if(!prev.some(q => q.id === currentQ.id)) return [...prev, currentQ];
+                        return prev;
+                    });
+                    setWrongQuestionsPool(prev => {
+                        if(!prev.some(q => q.id === currentQ.id)) return [...prev, currentQ];
+                        return prev;
+                    });
+                }
+            };
+
+            // 下一題
+            const handleNext = () => {
+                if (currentIndex < currentQuestions.length - 1) {
+                    setCurrentIndex(i => i + 1);
+                    setSelectedAnswer(null);
+                    setIsAnswered(false);
+                } else {
+                    setAppState('result');
+                }
+            };
+
+            // 渲染首頁
+            if (appState === 'home') {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full text-center fade-in">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-4">設計概論題庫測驗</h1>
+                            <p className="text-gray-600 mb-6">
+                                系統已完整收錄 {allQuestionsData.length} 題。<br/>
+                                每次將隨機抽出 {Math.min(QUESTIONS_PER_ROUND, allQuestionsData.length)} 題進行測驗。<br/>
+                                <span className="text-red-500 font-bold">答錯的題目必定會優先出現在下一輪測驗中！</span>
+                            </p>
+                            <button 
+                                onClick={startRound}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
+                            >
+                                開始測驗
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // 渲染測驗中
+            if (appState === 'playing') {
+                const currentQ = currentQuestions[currentIndex];
+                const progress = ((currentIndex) / currentQuestions.length) * 100;
+
+                return (
+                    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+                        <div className="bg-white p-6 rounded-2xl shadow-lg max-w-3xl w-full fade-in">
+                            {/* 進度條 */}
+                            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                                <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                            </div>
+                            <div className="flex justify-between text-sm text-gray-500 mb-6 font-medium">
+                                <span>第 {currentIndex + 1} 題 / 共 {currentQuestions.length} 題</span>
+                                <span className={wrongQuestionsPool.some(q=>q.id===currentQ.id) ? "text-red-500" : ""}>
+                                    {wrongQuestionsPool.some(q=>q.id===currentQ.id) ? "⚠️ 此為您先前的錯題" : ""}
+                                </span>
+                                <span>累積答對: {score} 題</span>
+                            </div>
+
+                            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
+                                {currentQ.id}. {currentQ.text}
+                            </h2>
+
+                            <div className="space-y-3 mb-6">
+                                {currentQ.options.map((option, idx) => {
+                                    let btnClass = "w-full text-left p-4 rounded-lg border-2 transition-all duration-200 text-lg ";
+                                    
+                                    if (!isAnswered) {
+                                        btnClass += "border-gray-200 hover:border-blue-400 hover:bg-blue-50";
+                                    } else {
+                                        if (idx === currentQ.answer) {
+                                            btnClass += "border-green-500 bg-green-100 text-green-800 font-bold"; 
+                                        } else if (idx === selectedAnswer) {
+                                            btnClass += "border-red-500 bg-red-100 text-red-800 font-bold";
+                                        } else {
+                                            btnClass += "border-gray-200 opacity-50"; 
+                                        }
+                                    }
+
+                                    return (
+                                        <button 
+                                            key={idx}
+                                            disabled={isAnswered}
+                                            onClick={() => handleSelect(idx)}
+                                            className={btnClass}
+                                        >
+                                            {option}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {isAnswered && (
+                                <div className="flex justify-end fade-in">
+                                    <button 
+                                        onClick={handleNext}
+                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg text-lg"
+                                    >
+                                        {currentIndex < currentQuestions.length - 1 ? '下一題' : '查看結果'}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+
+            // 渲染結果頁
+            if (appState === 'result') {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 rounded-2xl shadow-lg max-w-2xl w-full fade-in">
+                            <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">測驗完成！</h2>
+                            <div className="text-center text-6xl font-black text-blue-600 mb-4">
+                                {Math.round((score / currentQuestions.length) * 100)} <span className="text-2xl text-gray-500">分</span>
+                            </div>
+                            <p className="text-center text-gray-600 mb-8 text-lg">
+                                答對 {score} 題 / 共 {currentQuestions.length} 題
+                            </p>
+
+                            {roundWrong.length > 0 ? (
+                                <div className="mb-8">
+                                    <h3 className="text-xl font-bold text-red-600 mb-4 border-b pb-2">本輪錯題回顧 (將在下輪出現)</h3>
+                                    <div className="space-y-4 max-h-72 overflow-y-auto pr-2">
+                                        {roundWrong.map((q, i) => (
+                                            <div key={i} className="bg-red-50 p-4 rounded-lg border border-red-100">
+                                                <p className="font-semibold text-gray-800 mb-2">{q.id}. {q.text}</p>
+                                                <p className="text-green-700 font-medium bg-green-100 p-2 rounded">
+                                                    正確答案: {q.options[q.answer]}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center text-green-600 font-bold mb-8 text-xl p-6 bg-green-50 rounded-lg border border-green-200">
+                                    太棒了！本輪全對，沒有產生錯題！🎉
+                                </div>
+                            )}
+
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <button 
+                                    onClick={startRound}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg"
+                                >
+                                    進行下一輪 (包含 {wrongQuestionsPool.length} 題錯題)
+                                </button>
+                                <button 
+                                    onClick={() => {
+                                        setWrongQuestionsPool([]); // 清空錯題重新開始
+                                        setAppState('home');
+                                    }}
+                                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 rounded-lg"
+                                >
+                                    返回首頁 (重置錯題紀錄)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+
+您現在可以直接點擊**預覽 (Preview)** 或將檔案下載/複製下來，裡面已經包含完整的 81 道題目，且依然具備隨機抽題與錯題重作的功能，這將非常有助於您考前的反覆練習！
